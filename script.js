@@ -4,7 +4,7 @@ class Greeter extends React.Component{
     }
     render() {
         return <div id="Greeter">
-            <label for="name_input">What is your name? </label>
+            <label htmlFor="name_input">What is your name? </label>
             <input type="text" id="name_input"></input>
             <button type="button" onClick={this.greet}>Submit</button>
         </div>;
