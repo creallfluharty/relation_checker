@@ -1,0 +1,7 @@
+.invalidRelationEntry > input {
+    background-color: #FFA0A0;
+}
+
+.validRelationEntry > input {
+    background-color: #A0FFA0;
+}
