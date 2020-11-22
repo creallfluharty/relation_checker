@@ -2,13 +2,31 @@ function replaceNullWithEmptyList(maybeNull) {
     return (maybeNull === null)? [] : maybeNull;
 }
 
+class UniqueIDGenerator {
+    static prefixCounters = new Map();
 
-class RelationEntry extends React.Component{
+    static createIdWithPrefix(prefix) {
+        if (!this.prefixCounters.has(prefix)) {
+            this.prefixCounters.set(prefix, 0);
+        }
+
+        var uniqueId = `${prefix}${this.prefixCounters.get(prefix)}`;
+
+        this.prefixCounters.set(prefix, this.prefixCounters.get(prefix)+1); // Honestly, I'd prefer pointers to this
+
+        return uniqueId
+    }
+}
+
+
+class RelationEntry extends React.Component {
     constructor(props) {
         super(props);
 
         this.defaultText = '{}';
         this.relationRegex = /^(\{(\(\w,\w\),)*(\(\w,\w\))\})|(\{\})$/;
+
+        this.input_id = UniqueIDGenerator.createIdWithPrefix("relationEntryInput")
 
         this.state = {
             relationStr: this.defaultText,
@@ -18,9 +36,9 @@ class RelationEntry extends React.Component{
     }
 
     render() {
-        return <div id="relationEntry" className={`relationEntry ${this.state.isValidInput? '': 'in'}validRelationEntry`}>
-            <label htmlFor="relation_input">Enter your relation: </label>
-            <input type="text" id="relation_input"
+        return <div className={`relationEntry ${this.state.isValidInput? '': 'in'}validRelationEntry`}>
+            <label htmlFor={this.input_id}>Enter your relation: </label>
+            <input type="text" id={this.input_id}
                 value={this.state.relationStr} onChange={event => this.changeInput(event)}></input>
         </div>;
     };
