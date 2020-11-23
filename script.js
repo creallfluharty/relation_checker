@@ -80,13 +80,12 @@ class SetEntry extends React.Component {
 
         this.state = {
             setStr: '{}',
-            isValidInput: true,
             set: new Set(),
         };
     }
 
     render() {
-        return <div className={`SetEntry ${this.state.isValidInput? '': 'in'}validSetEntry`}>
+        return <div className={`SetEntry ${(this.state.set === null)? 'in': ''}validSetEntry`}>
             <label htmlFor={this.inputId}>Enter the set on which this relation occurs: </label>
             <input type="text" id={this.inputId} value={this.state.setStr}
                 onChange={event => this.changeInput(event)}></input>
@@ -94,17 +93,9 @@ class SetEntry extends React.Component {
     }
 
     changeInput(event) {
-        try {
-            var set = this.deserializeSetStr(event.target.value);
-            var isValidInput = true;
-        } catch (error) {
-            console.log(error);
-            var isValidInput = false;
-        }
-
+        var set = this.deserializeSetStr(event.target.value);
         this.setState({
             setStr: event.target.value,
-            isValidInput: isValidInput,
             set: set,
         });
     }
@@ -113,7 +104,7 @@ class SetEntry extends React.Component {
         setStr = setStr.replaceAll(' ', '');
 
         if (!this.setRegex.test(setStr)) {
-            throw `Bad Set: Set ${setStr} does not match pattern ${setStr}`;
+            return null;
         }
 
         var set = new Set(setStr.match(/\w/g));
