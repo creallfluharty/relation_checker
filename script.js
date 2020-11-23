@@ -81,6 +81,7 @@ class SetEntry extends React.Component {
         this.state = {
             setStr: '{}',
             isValidInput: true,
+            set: new Set(),
         };
     }
 
@@ -118,6 +119,10 @@ class SetEntry extends React.Component {
         var set = new Set(setStr.match(/\w/g));
 
         return set;
+    }
+
+    getSet() {
+        return this.state.set;
     }
 }
 
