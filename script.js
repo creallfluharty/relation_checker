@@ -23,13 +23,12 @@ class RelationEntry extends React.Component {
     constructor(props) {
         super(props);
 
-        this.defaultText = '{}';
         this.relationRegex = /^(\{(\(\w,\w\),)*(\(\w,\w\))\})|(\{\})$/;
 
-        this.input_id = UniqueIDGenerator.createIdWithPrefix("relationEntryInput")
+        this.inputId = UniqueIDGenerator.createIdWithPrefix("relationEntryInput")
 
         this.state = {
-            relationStr: this.defaultText,
+            relationStr: '{}',
             isValidInput: true,
             relation: [],
         }
@@ -37,8 +36,8 @@ class RelationEntry extends React.Component {
 
     render() {
         return <div className={`relationEntry ${this.state.isValidInput? '': 'in'}validRelationEntry`}>
-            <label htmlFor={this.input_id}>Enter your relation: </label>
-            <input type="text" id={this.input_id}
+            <label htmlFor={this.inputId}>Enter your relation: </label>
+            <input type="text" id={this.inputId}
                 value={this.state.relationStr} onChange={event => this.changeInput(event)}></input>
         </div>;
     };
@@ -80,7 +79,60 @@ class RelationEntry extends React.Component {
     }
 }
 
+class SetEntry extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.inputId = UniqueIDGenerator.createIdWithPrefix('SetEntryInput');
+        this.setRegex = /(\{(\w,)*\w\})|(\{\})/;
+
+        this.state = {
+            setStr: '{}',
+            isValidInput: true,
+        };
+    }
+
+    render() {
+        return <div className={`SetEntry ${this.state.isValidInput? '': 'in'}validSetEntry`}>
+            <label htmlFor={this.inputId}>Enter the set on which this relation occurs: </label>
+            <input type="text" id={this.inputId} value={this.state.setStr}
+                onChange={event => this.changeInput(event)}></input>
+        </div>
+    }
+
+    changeInput(event) {
+        try {
+            var set = this.deserializeSetStr(event.target.value);
+            var isValidInput = true;
+        } catch (error) {
+            console.log(error);
+            var isValidInput = false;
+        }
+
+        this.setState({
+            setStr: event.target.value,
+            isValidInput: isValidInput,
+            set: set,
+        });
+    }
+
+    deserializeSetStr(setStr) {
+        setStr = setStr.replaceAll(' ', '');
+
+        if (!this.setRegex.test(setStr)) {
+            throw `Bad Set: Set ${setStr} does not match pattern ${setStr}`;
+        }
+
+        var set = new Set(setStr.match(/\w/g));
+
+        return set;
+    }
+}
+
 ReactDOM.render(
-    <RelationEntry/>,
+    <div>
+        <RelationEntry/>
+        <SetEntry/>
+    </div>,
     document.getElementById('root'),
 );

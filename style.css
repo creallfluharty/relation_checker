@@ -5,3 +5,11 @@
 .validRelationEntry > input {
     background-color: #A0FFA0;
 }
+
+.invalidSetEntry > input {
+    background-color: #FFA0A0;
+}
+
+.validSetEntry > input {
+    background-color: #A0FFA0;
+}
