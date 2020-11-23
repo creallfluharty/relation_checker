@@ -29,13 +29,12 @@ class RelationEntry extends React.Component {
 
         this.state = {
             relationStr: '{}',
-            isValidInput: true,
-            relation: [],
-        }
+            relation: new Set(),
+        };
     }
 
     render() {
-        return <div className={`relationEntry ${this.state.isValidInput? '': 'in'}validRelationEntry`}>
+        return <div className={`relationEntry ${(this.state.relation === null)? 'in': ''}validRelationEntry`}>
             <label htmlFor={this.inputId}>Enter your relation: </label>
             <input type="text" id={this.inputId}
                 value={this.state.relationStr} onChange={event => this.changeInput(event)}></input>
@@ -43,20 +42,11 @@ class RelationEntry extends React.Component {
     };
 
     changeInput(event) {
-        try {
-            var relation = this.deserializeRelationStr(event.target.value);
-            var isValidInput = true;
-            console.log(`Got relation ${Array(...relation)}`);
-        } catch (error) {
-            console.log(error);
-            var relation = [];
-            var isValidInput = false;
-        }
+        var relation = this.deserializeRelationStr(event.target.value);
 
         this.setState({
             relationStr: event.target.value,
             relation: relation,
-            isValidInput: isValidInput,
         });
     }
 
@@ -64,7 +54,7 @@ class RelationEntry extends React.Component {
         relationStr = relationStr.replaceAll(' ', '');
 
         if (!this.relationRegex.test(relationStr)) {
-            throw `Bad Relation: Relation ${relationStr} did not match pattern ${this.relationRegex}`;
+            return null;
         }
 
         var pairs = new Set(replaceNullWithEmptyList(relationStr.match(/(\(\w,\w\))/g)).map(pairStr =>
