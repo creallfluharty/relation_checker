@@ -97,7 +97,7 @@ class SetEntry extends React.Component {
             <label htmlFor={this.inputId}>Enter the set on which this relation occurs: </label>
             <input type="text" id={this.inputId} value={this.state.setStr}
                 onChange={event => this.changeInput(event)}></input>
-        </div>
+        </div>;
     }
 
     changeInput(event) {
@@ -128,6 +128,14 @@ class SetEntry extends React.Component {
         return set;
     }
 }
+
+
+// class RelationChecker extends React.Component {
+//     constructor(props) {
+//         super(props);
+
+//     }
+// }
 
 ReactDOM.render(
     <div>
