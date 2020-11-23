@@ -25,7 +25,7 @@ class RelationEntry extends React.Component {
 
         this.relationRegex = /^(\{(\(\w,\w\),)*(\(\w,\w\))\})|(\{\})$/;
 
-        this.inputId = UniqueIDGenerator.createIdWithPrefix("relationEntryInput")
+        this.inputId = UniqueIDGenerator.createIdWithPrefix("relationEntryInput");
 
         this.state = {
             relationStr: '{}',
