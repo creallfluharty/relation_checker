@@ -27,9 +27,11 @@ class RelationEntry extends React.Component {
 
         this.inputId = UniqueIDGenerator.createIdWithPrefix("relationEntryInput");
 
+        var relationStr = (props.relationStr === undefined)? '{}': props.relationStr;
+
         this.state = {
-            relationStr: '{}',
-            relation: new Set(),
+            relationStr: relationStr,
+            relation: this.deserializeRelationStr(relationStr),
         };
     }
 
