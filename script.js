@@ -27,6 +27,8 @@ class RelationEntry extends React.Component {
 
         this.inputId = UniqueIDGenerator.createIdWithPrefix("relationEntryInput");
 
+        this.onRelationChange = (props.onRelationChange === undefined)? ()=>{}: this.props.onRelationChange;
+
         var relationStr = (props.relationStr === undefined)? '{}': props.relationStr;
 
         this.state = {
@@ -42,6 +44,10 @@ class RelationEntry extends React.Component {
                 value={this.state.relationStr} onChange={event => this.changeInput(event)}></input>
         </div>;
     };
+
+    componentDidUpdate() {
+        this.onRelationChange(this.state.relation);
+    }
 
     changeInput(event) {
         var relation = this.deserializeRelationStr(event.target.value);
@@ -65,10 +71,6 @@ class RelationEntry extends React.Component {
 
         return pairs;
     }
-
-    getRelation() {
-        return this.state.relation;
-    }
 }
 
 class SetEntry extends React.Component {
@@ -79,6 +81,7 @@ class SetEntry extends React.Component {
         this.setRegex = /(\{(\w,)*\w\})|(\{\})/;
 
         var setStr = (props.setStr === undefined)? '{}': props.setStr;
+        this.onSetChange = (props.onSetChange === undefined)? ()=>{}: this.props.onSetChange;
 
         this.state = {
             setStr: setStr,
@@ -92,6 +95,10 @@ class SetEntry extends React.Component {
             <input type="text" id={this.inputId} value={this.state.setStr}
                 onChange={event => this.changeInput(event)}></input>
         </div>;
+    }
+
+    componentDidUpdate() {
+        this.onSetChange(this.state.set);
     }
 
     changeInput(event) {
@@ -113,10 +120,6 @@ class SetEntry extends React.Component {
 
         return set;
     }
-
-    getSet() {
-        return this.state.set;
-    }
 }
 
 
@@ -124,8 +127,13 @@ class RelationChecker extends React.Component {
     constructor(props) {
         super(props);
 
-        this.relationEntry = <RelationEntry/>;
-        this.setEntry = <SetEntry/>;
+        this.relationEntry = <RelationEntry onRelationChange={relation => this.handleRelationChange(relation)}/>;
+        this.setEntry = <SetEntry onSetChange={set => this.handleSetChange(set)}/>;
+
+        this.state = {
+            relation: null,
+            set: null,
+        };
     }
 
     render() {
@@ -133,6 +141,14 @@ class RelationChecker extends React.Component {
             {this.relationEntry}
             {this.setEntry}
         </div>
+    }
+
+    handleRelationChange(relation) {
+        console.log(`Got relation ${relation}`);
+    }
+
+    handleSetChange(set) {
+        console.log(`Got set ${set}`);
     }
 }
 
