@@ -120,17 +120,23 @@ class SetEntry extends React.Component {
 }
 
 
-// class RelationChecker extends React.Component {
-//     constructor(props) {
-//         super(props);
+class RelationChecker extends React.Component {
+    constructor(props) {
+        super(props);
 
-//     }
-// }
+        this.relationEntry = <RelationEntry/>;
+        this.setEntry = <SetEntry/>;
+    }
+
+    render() {
+        return <div>
+            {this.relationEntry}
+            {this.setEntry}
+        </div>
+    }
+}
 
 ReactDOM.render(
-    <div>
-        <RelationEntry/>
-        <SetEntry/>
-    </div>,
+    <RelationChecker/>,
     document.getElementById('root'),
 );
