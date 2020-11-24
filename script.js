@@ -78,9 +78,11 @@ class SetEntry extends React.Component {
         this.inputId = UniqueIDGenerator.createIdWithPrefix('SetEntryInput');
         this.setRegex = /(\{(\w,)*\w\})|(\{\})/;
 
+        var setStr = (props.setStr === undefined)? '{}': props.setStr;
+
         this.state = {
-            setStr: '{}',
-            set: new Set(),
+            setStr: setStr,
+            set: this.deserializeSetStr(setStr),
         };
     }
 
