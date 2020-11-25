@@ -46,8 +46,8 @@ class RelationEntry extends React.Component {
     render() {
         return <div className={`relationEntry ${(this.state.relation === null)? 'in': ''}validRelationEntry`}>
             <label htmlFor={this.inputId}>Enter your relation: </label>
-            <input type="text" id={this.inputId}
-                value={this.state.relationStr} onChange={event => this.changeInput(event)}></input>
+            <textarea type="text" id={this.inputId}
+                value={this.state.relationStr} onChange={event => this.changeInput(event)}></textarea>
         </div>;
     };
 
@@ -100,8 +100,8 @@ class SetEntry extends React.Component {
     render() {
         return <div className={`SetEntry ${(this.state.set === null)? 'in': ''}validSetEntry`}>
             <label htmlFor={this.inputId}>Enter the set on which this relation occurs: </label>
-            <input type="text" id={this.inputId} value={this.state.setStr}
-                onChange={event => this.changeInput(event)}></input>
+            <textarea type="text" id={this.inputId} value={this.state.setStr}
+                onChange={event => this.changeInput(event)}></textarea>
         </div>;
     }
 
@@ -145,14 +145,24 @@ class RelationPropertyChecker extends React.Component {
     render() {
         return <div className="RelationPropertyChecker">
             <h3>Relation Properties</h3>
-            <p>Reflexive?</p>
-            <p>{this.stateSymbols[this.checkIsReflexive(this.props.relation, this.props.set)]}</p>
-            <p>Symmetric?</p>
-            <p>{this.stateSymbols[this.checkIsSymmetric(this.props.relation, this.props.set)]}</p>
-            <p>Anti-Symmetric?</p>
-            <p>{this.stateSymbols[this.checkIsAntiSymmetric(this.props.relation, this.props.set)]}</p>
-            <p>Transitive?</p>
-            <p>{this.stateSymbols[this.checkIsTransitive(this.props.relation, this.props.set)]}</p>
+            <div className="RelationProperties">
+                <div className="RelationProperty">
+                    <p>Reflexive?</p>
+                    <p>{this.stateSymbols[this.checkIsReflexive(this.props.relation, this.props.set)]}</p>
+                </div>
+                <div className="RelationProperty">
+                    <p>Symmetric?</p>
+                    <p>{this.stateSymbols[this.checkIsSymmetric(this.props.relation, this.props.set)]}</p>
+                </div>
+                <div className="RelationProperty">
+                    <p>Anti-Symmetric?</p>
+                    <p>{this.stateSymbols[this.checkIsAntiSymmetric(this.props.relation, this.props.set)]}</p>
+                </div>
+                <div className="RelationProperty">
+                    <p>Transitive?</p>
+                    <p>{this.stateSymbols[this.checkIsTransitive(this.props.relation, this.props.set)]}</p>
+                </div>
+            </div>
         </div>
     }
 
@@ -223,8 +233,10 @@ class RelationChecker extends React.Component {
 
     render() {
         return <div>
-            {this.relationEntry}
-            {this.setEntry}
+            <div className="Entries">
+                {this.relationEntry}
+                {this.setEntry}
+            </div>
             <RelationPropertyChecker set={this.state.set} relation={this.state.relation} />
         </div>
     }

@@ -1,15 +1,53 @@
-.invalidRelationEntry > input {
+.invalidRelationEntry > textarea {
     background-color: #FFA0A0;
 }
 
-.validRelationEntry > input {
+.validRelationEntry > textarea {
     background-color: #A0FFA0;
 }
 
-.invalidSetEntry > input {
+.invalidSetEntry > textarea {
     background-color: #FFA0A0;
 }
 
-.validSetEntry > input {
+.validSetEntry > textarea {
     background-color: #A0FFA0;
+}
+
+.Entries {
+    width: 50%;
+    display: flex;
+}
+
+.Entries > div {
+    width: 48%;
+    margin: 1%;
+}
+
+.Entries > div > * {
+    width: 100%;
+}
+
+.Entries > div > textarea {
+    max-width: 100%;
+}
+
+.RelationProperties {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.RelationProperty {
+    display: flex;
+    width: calc(100%/2 - 2*0.5%);
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px black;
+    border-radius: 10px;
+    margin: .5%;
+}
+
+.RelationProperty > p {
+    margin: 2%
 }
