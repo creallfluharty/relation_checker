@@ -2,6 +2,10 @@ function replaceNullWithEmptyList(maybeNull) {
     return (maybeNull === null)? [] : maybeNull;
 }
 
+function arrayHasElement(array, element) {
+    return _.some(array, item => _.isMatch(item, element));
+}
+
 class UniqueIDGenerator {
     static prefixCounters = new Map();
 
@@ -35,6 +39,8 @@ class RelationEntry extends React.Component {
             relationStr: relationStr,
             relation: this.deserializeRelationStr(relationStr),
         };
+
+        this.onRelationChange(this.state.relation);
     }
 
     render() {
@@ -65,9 +71,9 @@ class RelationEntry extends React.Component {
             return null;
         }
 
-        var pairs = new Set(replaceNullWithEmptyList(relationStr.match(/(\(\w,\w\))/g)).map(pairStr =>
+        var pairs = new Array(...new Set(replaceNullWithEmptyList(relationStr.match(/(\(\w,\w\))/g)).map(pairStr =>
             pairStr.match(/\w/g)
-        ));
+        )));
 
         return pairs;
     }
@@ -87,6 +93,8 @@ class SetEntry extends React.Component {
             setStr: setStr,
             set: this.deserializeSetStr(setStr),
         };
+
+        this.onSetChange(this.state.set);
     }
 
     render() {
@@ -116,9 +124,86 @@ class SetEntry extends React.Component {
             return null;
         }
 
-        var set = new Set(setStr.match(/\w/g));
+        var set = new Array(...new Set(setStr.match(/\w/g)));
 
         return set;
+    }
+}
+
+
+class RelationPropertyChecker extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.stateSymbols = {
+            true: '✅',
+            false: '❎',
+            undefined: '⍰',
+        }
+    }
+
+    render() {
+        return <div className="RelationPropertyChecker">
+            <h3>Relation Properties</h3>
+            <p>Reflexive?</p>
+            <p>{this.stateSymbols[this.checkIsReflexive(this.props.relation, this.props.set)]}</p>
+            <p>Symmetric?</p>
+            <p>{this.stateSymbols[this.checkIsSymmetric(this.props.relation, this.props.set)]}</p>
+            <p>Anti-Symmetric?</p>
+            <p>{this.stateSymbols[this.checkIsAntiSymmetric(this.props.relation, this.props.set)]}</p>
+            <p>Transitive?</p>
+            <p>{this.stateSymbols[this.checkIsTransitive(this.props.relation, this.props.set)]}</p>
+        </div>
+    }
+
+    checkIsReflexive(relation, set) {
+        console.log('checkIsReflexive was called');
+        if (relation === null || set === null)
+            return undefined;
+
+        for (var element of set) {
+            if (!arrayHasElement(relation, [element, element]))
+                return false;
+        }
+        return true;
+    }
+
+    checkIsSymmetric(relation, set) {
+        if (relation === null)
+            return undefined;
+    
+        for (var [a, b] of relation) {
+            if (!arrayHasElement(relation, [b, a])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    checkIsAntiSymmetric(relation, set) {
+        if (relation === null)
+            return undefined;
+
+        for (var [a, b] of relation) {
+            if (arrayHasElement(relation, [b, a]) && a !== b)
+            return false
+        }
+
+        return true
+    }
+
+    checkIsTransitive(relation, set) {
+        if (relation == null)
+            return undefined;
+        
+        for (var [a1, b1] of relation) {
+            for (var [a2, b2] of relation) {
+                if (b1 === a2 && !arrayHasElement(relation, [a1, b2]))
+                    return false;
+            }
+        }
+
+        return true;
     }
 }
 
@@ -140,15 +225,22 @@ class RelationChecker extends React.Component {
         return <div>
             {this.relationEntry}
             {this.setEntry}
+            <RelationPropertyChecker set={this.state.set} relation={this.state.relation} />
         </div>
     }
 
     handleRelationChange(relation) {
         console.log(`Got relation ${relation}`);
+        this.setState({
+            relation: relation,
+        });
     }
 
     handleSetChange(set) {
         console.log(`Got set ${set}`);
+        this.setState({
+            set: set,
+        });
     }
 }
 
