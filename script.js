@@ -6,30 +6,13 @@ function arrayHasElement(array, element) {
     return _.some(array, item => _.isMatch(item, element));
 }
 
-class UniqueIDGenerator {
-    static prefixCounters = new Map();
-
-    static createIdWithPrefix(prefix) {
-        if (!this.prefixCounters.has(prefix)) {
-            this.prefixCounters.set(prefix, 0);
-        }
-
-        var uniqueId = `${prefix}${this.prefixCounters.get(prefix)}`;
-
-        this.prefixCounters.set(prefix, this.prefixCounters.get(prefix)+1); // Honestly, I'd prefer pointers to this
-
-        return uniqueId
-    }
-}
-
-
 class RelationEntry extends React.Component {
     constructor(props) {
         super(props);
 
         this.relationRegex = /^(\{(\(\w,\w\),)*(\(\w,\w\))\})|(\{\})$/;
 
-        this.inputId = UniqueIDGenerator.createIdWithPrefix("relationEntryInput");
+        this.inputId = _.uniqueId("relationEntryInput");
 
         this.onRelationChange = (props.onRelationChange === undefined)? ()=>{}: this.props.onRelationChange;
 
@@ -83,7 +66,7 @@ class SetEntry extends React.Component {
     constructor(props) {
         super(props);
 
-        this.inputId = UniqueIDGenerator.createIdWithPrefix('SetEntryInput');
+        this.inputId = _.uniqueId('SetEntryInput');
         this.setRegex = /(\{(\w,)*\w\})|(\{\})/;
 
         var setStr = (props.setStr === undefined)? '{}': props.setStr;
