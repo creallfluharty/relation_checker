@@ -215,7 +215,9 @@ class RelationChecker extends React.Component {
     }
 
     render() {
-        return <div>
+        return <div className="RelationChecker">
+            <h1>Relation Checker</h1>
+            <p>Check the properties of a relation</p>
             <div className="Entries">
                 {this.relationEntry}
                 {this.setEntry}

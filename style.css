@@ -14,8 +14,23 @@
     background-color: #A0FFA0;
 }
 
-.Entries {
+#root {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.RelationChecker {
     width: 50%;
+    background-color: rgb(211, 224, 240);
+    padding: 5%;
+    border-radius: 5%;
+}
+
+.Entries {
+    width: 100%;
     display: flex;
 }
 
@@ -29,11 +44,11 @@
 }
 
 .Entries > div > textarea {
-    max-width: 100%;
+    resize: vertical;
 }
 
 .RelationProperties {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
