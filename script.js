@@ -228,14 +228,14 @@ class RelationChecker extends React.Component {
     }
 
     handleRelationChange(relation) {
-        console.log(`Got relation ${relation}`);
+        console.log(`Got relation ${JSON.stringify(relation)}`);
         this.setState({
             relation: relation,
         });
     }
 
     handleSetChange(set) {
-        console.log(`Got set ${set}`);
+        console.log(`Got set ${JSON.stringify(set)}`);
         this.setState({
             set: set,
         });
