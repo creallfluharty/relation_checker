@@ -66,3 +66,7 @@
 .RelationProperty > p {
     margin: 2%
 }
+
+.StatusSymbol {
+    height: 15px;
+}

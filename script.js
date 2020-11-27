@@ -119,9 +119,10 @@ class RelationPropertyChecker extends React.Component {
         super(props);
 
         this.stateSymbols = {
-            true: '✅',
-            false: '❎',
-            undefined: '⍰',
+            true: <img src="img/checkmark.svg" className="StatusSymbol"/>,
+            false: <img src="img/cross.svg" className="StatusSymbol"/>,
+            undefined: <img src="img/question_mark.svg" className="StatusSymbol"/>,
+
         }
     }
 
