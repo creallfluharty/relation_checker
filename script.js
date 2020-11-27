@@ -236,7 +236,7 @@ class RelationChecker extends React.Component {
     }
 
     handleSetChange(set) {
-        if (relation !== null)
+        if (set !== null)
             console.log(`Got set ${JSON.stringify(set)}`);
 
         this.setState({
