@@ -151,7 +151,6 @@ class RelationPropertyChecker extends React.Component {
     }
 
     checkIsReflexive(relation, set) {
-        console.log('checkIsReflexive was called');
         if (relation === null || set === null)
             return undefined;
 
