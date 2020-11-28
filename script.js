@@ -34,8 +34,9 @@ class RelationEntry extends React.Component {
         </div>;
     };
 
-    componentDidUpdate() {
-        this.onRelationChange(this.state.relation);
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.relation !== this.state.relation)
+            this.onRelationChange(this.state.relation);
     }
 
     changeInput(event) {
@@ -88,8 +89,9 @@ class SetEntry extends React.Component {
         </div>;
     }
 
-    componentDidUpdate() {
-        this.onSetChange(this.state.set);
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.set !== this.state.set)
+            this.onSetChange(this.state.set);
     }
 
     changeInput(event) {
@@ -205,9 +207,6 @@ class RelationChecker extends React.Component {
     constructor(props) {
         super(props);
 
-        this.relationEntry = <RelationEntry onRelationChange={relation => this.handleRelationChange(relation)}/>;
-        this.setEntry = <SetEntry onSetChange={set => this.handleSetChange(set)}/>;
-
         this.state = {
             relation: null,
             set: null,
@@ -219,8 +218,8 @@ class RelationChecker extends React.Component {
             <h1>Relation Checker</h1>
             <p>Check the properties of a relation</p>
             <div className="Entries">
-                {this.relationEntry}
-                {this.setEntry}
+                <RelationEntry onRelationChange={relation => this.handleRelationChange(relation)}/>
+                <SetEntry onSetChange={set => this.handleSetChange(set)}/>
             </div>
             <RelationPropertyChecker set={this.state.set} relation={this.state.relation} />
         </div>
